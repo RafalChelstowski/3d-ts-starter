@@ -51,12 +51,9 @@
       "ignoreClassFields": true
     }],
     "react/jsx-max-props-per-line": ["error", {
-      "maximum": 3
+      "maximum": 5
     }],
     "react/jsx-props-no-spreading": "off",
-    "react/jsx-sort-props": ["error", {
-      "ignoreCase": true
-    }],
     "react/jsx-uses-react": "off",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",

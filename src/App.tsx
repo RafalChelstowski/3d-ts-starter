@@ -1,16 +1,11 @@
-import { Suspense } from 'react';
+import { useRef } from 'react';
 import { Canvas } from 'react-three-fiber';
 
-import { Physics } from '@react-three/cannon';
 import styled from 'styled-components';
 import { Reset } from 'styled-reset';
 
-import { DefaultCamera } from './common/components/camera/Camera';
+import { OrbitControls } from './common/components/controls/OrbitControls';
 import { Lights } from './common/components/lights/Lights';
-import { LockButton } from './common/components/lock-button/LockButton';
-import { Player } from './features/player/Player';
-import { Floor } from './features/salon/Floor';
-import { Model } from './features/salon/Model';
 
 const Main = styled.main`
   width: 100vw;
@@ -19,20 +14,17 @@ const Main = styled.main`
 `;
 
 export function App(): JSX.Element {
+  const meshRef = useRef();
   return (
     <Main>
       <Reset />
-      <LockButton />
-      <Canvas concurrent shadowMap>
-        <DefaultCamera />
-        <Lights />
-        <Physics gravity={[0, -1, 0]}>
-          <Player />
-          <Floor />
-          <Suspense fallback={null}>
-            <Model />
-          </Suspense>
-        </Physics>
+      <Canvas camera={{ near: 0.02, far: 1000, fov: 80 }} concurrent shadowMap>
+        <Lights />80
+        <mesh ref={meshRef}>
+          <boxBufferGeometry args={[1, 1, 1]} />
+          <meshStandardMaterial color="red" />
+        </mesh>
+        <OrbitControls />
       </Canvas>
     </Main>
   );
