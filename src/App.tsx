@@ -19,7 +19,7 @@ export function App(): JSX.Element {
     <Main>
       <Reset />
       <Canvas camera={{ near: 0.02, far: 1000, fov: 80 }} concurrent shadowMap>
-        <Lights />80
+        <Lights />
         <mesh ref={meshRef}>
           <boxBufferGeometry args={[1, 1, 1]} />
           <meshStandardMaterial color="red" />
