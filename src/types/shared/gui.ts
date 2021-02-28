@@ -4,7 +4,11 @@ export enum GuiLocalStorageKey {
 
 export enum GuiGroups {
   CAMERA = 'Camera',
-  TEST_CUBE = 'Test Cube',
+  AMBIENT_LIGHT = 'Ambient Light',
+  DIRECTIONAL_LIGHT = 'Directional Light',
+  CUBE_1 = 'Cube_1',
+  CUBE_2 = 'Cube_2',
+  CUBE_3 = 'Cube_3',
 }
 
 export enum PositionControl {
