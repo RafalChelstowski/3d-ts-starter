@@ -1,15 +1,16 @@
 import { useEffect } from 'react';
 import { Canvas } from 'react-three-fiber';
-import { Controls, withControls } from 'react-three-gui';
+import { Controls as GuiControls, withControls } from 'react-three-gui';
 import { useLocalStorage, useSearchParam } from 'react-use';
 
 import styled from 'styled-components';
 import { Reset } from 'styled-reset';
 
 import { Camera } from './common/components/camera/Camera';
-// import { OrbitControls } from './common/components/controls/OrbitControls';
+import { OrbitControls } from './common/components/controls/OrbitControls';
 import { Lights } from './common/components/lights/Lights';
 import { Cube } from './features/cube/Cube';
+import { Floor } from './features/floor/Floor';
 import { GuiGroups, GuiLocalStorageKey } from './types';
 
 const CanvasWithControls = withControls(Canvas);
@@ -17,7 +18,7 @@ const CanvasWithControls = withControls(Canvas);
 const Main = styled.main`
   width: 100vw;
   height: 100vh;
-  background-color: white;
+  background-color: black;
 `;
 
 export function App(): JSX.Element {
@@ -33,16 +34,23 @@ export function App(): JSX.Element {
   return (
     <Main>
       <Reset />
-      <Controls.Provider>
+      <GuiControls.Provider>
         <CanvasWithControls concurrent shadowMap>
           <Lights />
-          <Cube />
-          <Camera />
+          <Cube position={[-2, 0, 0]} group={GuiGroups.CUBE_1} />
+          <Cube position={[0, 0, 0]} group={GuiGroups.CUBE_2} />
+          <Cube position={[2, 0, 0]} group={GuiGroups.CUBE_3} />
+          <Floor />
+          {/* <Camera /> */}
+          <OrbitControls />
         </CanvasWithControls>
         {value === 'on' && (
-          <Controls title="GUI" defaultClosedGroups={[GuiGroups.TEST_CUBE]} />
+          <GuiControls
+            title="GUI"
+            defaultClosedGroups={[...Object.values(GuiGroups)]}
+          />
         )}
-      </Controls.Provider>
+      </GuiControls.Provider>
     </Main>
   );
 }

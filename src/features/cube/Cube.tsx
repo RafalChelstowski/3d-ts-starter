@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
-import { Object3DNode, useThree } from 'react-three-fiber';
+import { useRef } from 'react';
+import { Object3DNode } from 'react-three-fiber';
 import { ControlType, useControl } from 'react-three-gui';
 
 import * as THREE from 'three';
 
-import { GuiGroups, MaterialControlParam, PositionControl } from '../../types';
+import { useGuiPosition } from '../../common/hooks/gui/useGuiPosition';
 
 type RefObject = Object3DNode<
   THREE.Mesh<
@@ -14,52 +14,26 @@ type RefObject = Object3DNode<
   typeof THREE.Mesh
 >;
 
-export function Cube(): JSX.Element {
+interface CubeProps {
+  position: number[];
+  group: string;
+}
+
+export function Cube({ position, group }: CubeProps): JSX.Element {
   const meshRef = useRef<RefObject | null>(null);
-  const { camera } = useThree();
-  const [cameraLookAt, setCameraLookAt] = useState(new THREE.Vector3(0, 0, 0));
 
-  const px = useControl(PositionControl.POS_X, {
-    type: ControlType.NUMBER,
-    value: 0,
-    min: -1,
-    max: 1,
-    group: GuiGroups.TEST_CUBE,
-  });
+  const arr = useGuiPosition({ position, group });
 
-  const py = useControl(PositionControl.POS_Y, {
-    type: ControlType.NUMBER,
-    value: 0,
-    min: -1,
-    max: 1,
-    group: GuiGroups.TEST_CUBE,
-  });
-
-  const pz = useControl(PositionControl.POS_Z, {
-    type: ControlType.NUMBER,
-    value: 0,
-    min: -1,
-    max: 1,
-    group: GuiGroups.TEST_CUBE,
-  });
-
-  const wireframe = useControl(MaterialControlParam.WIREFRAME, {
+  const wireframe = useControl('Wireframe', {
     type: ControlType.BOOLEAN,
     value: false,
-    group: GuiGroups.TEST_CUBE,
+    group,
   });
 
-  useEffect(() => {
-    camera.lookAt(cameraLookAt);
-    camera.updateProjectionMatrix();
-  }, [camera, cameraLookAt]);
-
-  const handleClick = () => setCameraLookAt(new THREE.Vector3(1, 1, 1));
-
   return (
-    <mesh ref={meshRef} onClick={handleClick} position={[px, py, pz]}>
+    <mesh ref={meshRef} position={new THREE.Vector3(...arr)}>
       <boxBufferGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="red" wireframe={wireframe} />
+      <meshStandardMaterial color="red" wireframe={wireframe} roughness={0.4} />
     </mesh>
   );
 }
