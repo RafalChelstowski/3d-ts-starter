@@ -7,10 +7,7 @@ import * as THREE from 'three';
 import { useGuiPosition } from '../../common/hooks/gui/useGuiPosition';
 
 type RefObject = Object3DNode<
-  THREE.Mesh<
-    THREE.BufferGeometry | THREE.Geometry,
-    THREE.Material | THREE.Material[]
-  >,
+  THREE.Mesh<THREE.BufferGeometry, THREE.Material | THREE.Material[]>,
   typeof THREE.Mesh
 >;
 
@@ -21,7 +18,6 @@ interface CubeProps {
 
 export function Cube({ position, group }: CubeProps): JSX.Element {
   const meshRef = useRef<RefObject | null>(null);
-
   const arr = useGuiPosition({ position, group });
 
   const wireframe = useControl('Wireframe', {
