@@ -1,10 +1,7 @@
 import { useRef } from 'react';
-import { Object3DNode } from 'react-three-fiber';
-import { ControlType, useControl } from 'react-three-gui';
 
+import { Object3DNode } from '@react-three/fiber';
 import * as THREE from 'three';
-
-import { useGuiPosition } from '../../common/hooks/gui/useGuiPosition';
 
 type RefObject = Object3DNode<
   THREE.Mesh<THREE.BufferGeometry, THREE.Material | THREE.Material[]>,
@@ -12,24 +9,16 @@ type RefObject = Object3DNode<
 >;
 
 interface CubeProps {
-  position: number[];
-  group: string;
+  position: [x: number, y: number, z: number];
 }
 
-export function Cube({ position, group }: CubeProps): JSX.Element {
+export function Cube({ position }: CubeProps): JSX.Element {
   const meshRef = useRef<RefObject | null>(null);
-  const arr = useGuiPosition({ position, group });
-
-  const wireframe = useControl('Wireframe', {
-    type: ControlType.BOOLEAN,
-    value: false,
-    group,
-  });
 
   return (
-    <mesh ref={meshRef} position={new THREE.Vector3(...arr)}>
+    <mesh ref={meshRef} position={position}>
       <boxBufferGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="red" wireframe={wireframe} roughness={0.4} />
+      <meshStandardMaterial color="red" roughness={0.4} />
     </mesh>
   );
 }

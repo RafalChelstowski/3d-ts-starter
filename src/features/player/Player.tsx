@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { extend, useFrame, useThree } from 'react-three-fiber';
 
 import { useSphere } from '@react-three/cannon';
+import { extend, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls';
 
@@ -11,7 +11,7 @@ import { ControlsLock } from '../../types';
 
 extend({ PointerLockControls });
 
-const INITIAL_POSITION = [0, 0, 0];
+const INITIAL_POSITION: [x: number, y: number, z: number] = [0, 0, 0];
 const SPEED = 5;
 
 export function Player(): JSX.Element {
@@ -20,12 +20,8 @@ export function Player(): JSX.Element {
   const isLocked = useStore(useCallback((state) => state.isLocked, []));
   const { gl, camera } = useThree();
 
-  const {
-    controlsUp,
-    controlsDown,
-    controlsLeft,
-    controlsRight,
-  } = useControls();
+  const { controlsUp, controlsDown, controlsLeft, controlsRight } =
+    useControls();
 
   const [playerRef, playerApi] = useSphere(() => ({
     args: 0.4,

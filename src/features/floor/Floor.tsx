@@ -1,4 +1,4 @@
-import { usePlane } from '@react-three/cannon';
+// import { usePlane } from '@react-three/cannon';
 
 export function Floor(): JSX.Element {
   // const [ref] = usePlane(() => ({
